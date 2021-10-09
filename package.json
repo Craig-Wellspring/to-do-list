@@ -1,5 +1,6 @@
 {
-  "name": "react-template-2021",
+  "name": "to-do-list",
+  "author": "Craig Wellspring",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
