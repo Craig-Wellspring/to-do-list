@@ -6,6 +6,7 @@ const initialState = {
   name: '',
   complete: false,
   uid: '',
+  firebaseKey: '',
 };
 
 export default function TodoForm({ obj, setTodos, setEditItem }) {
