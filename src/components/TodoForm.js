@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createTodo } from '../api/data/todoData';
+import { createTodo, updateTodo } from '../api/data/todoData';
 
-export default function TodoForm({ obj = {}, setTodos }) {
-  const [formInput, setFormInput] = useState({
-    name: obj?.name || '',
-    id: obj?.id || '',
-  });
+const initialState = {
+  name: '',
+  complete: false,
+  uid: '',
+};
+
+export default function TodoForm({ obj, setTodos, setEditItem }) {
+  const [formInput, setFormInput] = useState(initialState);
+
+  useEffect(() => {
+    if (obj.firebaseKey) {
+      setFormInput({
+        name: obj.name,
+        firebaseKey: obj.firebaseKey,
+        complete: obj.complete,
+        date: obj.date,
+        uid: obj.uid,
+      });
+    }
+  }, [obj]);
+
+  const resetForm = () => {
+    setFormInput({ ...initialState });
+    setEditItem({});
+  };
 
   const handleChange = (e) => {
     setFormInput((prevState) => ({
@@ -17,10 +37,17 @@ export default function TodoForm({ obj = {}, setTodos }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    createTodo({ ...formInput, complete: false }).then((todos) => {
-      setTodos(todos);
-    });
+    if (obj.firebaseKey) {
+      updateTodo(formInput.firebaseKey, formInput).then((todos) => {
+        setTodos(todos);
+        resetForm();
+      });
+    } else {
+      createTodo({ ...formInput, date: new Date() }).then((todos) => {
+        setTodos(todos);
+        resetForm();
+      });
+    }
   };
 
   return (
@@ -35,7 +62,7 @@ export default function TodoForm({ obj = {}, setTodos }) {
         />
         Name
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit">{obj.firebaseKey ? 'Update' : 'Submit'}</button>
     </form>
   );
 }
@@ -43,7 +70,11 @@ export default function TodoForm({ obj = {}, setTodos }) {
 TodoForm.propTypes = {
   obj: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.string,
+    firebaseKey: PropTypes.string,
+    complete: PropTypes.bool,
+    date: PropTypes.string,
+    uid: PropTypes.string,
   }).isRequired,
   setTodos: PropTypes.func.isRequired,
+  setEditItem: PropTypes.func.isRequired,
 };

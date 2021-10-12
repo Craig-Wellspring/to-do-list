@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert, Button } from 'reactstrap';
 import { deleteTodo, updateTodo } from '../api/data/todoData';
 
-export default function Todo({ todo, setTodos }) {
+export default function Todo({ todo, setTodos, setEditItem }) {
   const handleClick = (method) => {
     if (method === 'delete') {
       deleteTodo(todo.firebaseKey).then(setTodos);
@@ -15,10 +15,16 @@ export default function Todo({ todo, setTodos }) {
   return (
     <div>
       <Alert color="light">
-        <Button color="success" onClick={() => handleClick('toggleComplete')}>
-          COMPLETE
+        <Button
+          color={todo.complete ? 'secondary' : 'success'}
+          onClick={() => handleClick('toggleComplete')}
+        >
+          {todo.complete ? 'DONE' : 'COMPLETE'}
         </Button>{' '}
         {todo.name}{' '}
+        <Button color="warning" onClick={() => setEditItem(todo)}>
+          EDIT
+        </Button>{' '}
         <Button color="danger" onClick={() => handleClick('delete')}>
           DELETE
         </Button>
@@ -36,4 +42,5 @@ Todo.propTypes = {
     uid: PropTypes.string,
   }).isRequired,
   setTodos: PropTypes.func.isRequired,
+  setEditItem: PropTypes.func.isRequired,
 };
