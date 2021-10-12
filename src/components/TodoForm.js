@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createTodo } from '../api/data/todoData';
 
-export default function TodoForm({ obj = {} }) {
+export default function TodoForm({ obj = {}, setTodos }) {
   const [formInput, setFormInput] = useState({
     name: obj?.name || '',
     id: obj?.id || '',
@@ -18,7 +18,9 @@ export default function TodoForm({ obj = {} }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createTodo(formInput);
+    createTodo({ ...formInput, complete: false }).then((todos) => {
+      setTodos(todos);
+    });
   };
 
   return (
@@ -43,4 +45,5 @@ TodoForm.propTypes = {
     name: PropTypes.string,
     id: PropTypes.string,
   }).isRequired,
+  setTodos: PropTypes.func.isRequired,
 };

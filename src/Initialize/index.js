@@ -13,9 +13,9 @@ function Initialize() {
   return (
     <>
       <div id="header">YOU-DO</div>
-      <TodoForm obj={{ ...todos }} />
+      <TodoForm obj={{ ...todos }} setTodos={setTodos} />
       {todos.map((todo) => (
-        <Todo key={todo.name} todo={todo} />
+        <Todo key={todo.firebaseKey} todo={todo} setTodos={setTodos} />
       ))}
     </>
   );

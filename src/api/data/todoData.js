@@ -6,7 +6,7 @@ const baseURL = firebaseConfig.databaseURL;
 const getTodos = async () => {
   const response = await axios.get(`${baseURL}/.json`);
 
-  return Object.values(response.data);
+  return response.data ? Object.values(response.data) : [];
 };
 
 const createTodo = async (obj) => {
@@ -18,4 +18,20 @@ const createTodo = async (obj) => {
   return todoList;
 };
 
-export { getTodos, createTodo };
+const deleteTodo = async (firebaseKey) => {
+  await axios.delete(`${baseURL}/${firebaseKey}.json`);
+  const todoList = await getTodos();
+
+  return todoList;
+};
+
+const updateTodo = async (firebaseKey, update) => {
+  await axios.patch(`${baseURL}/${firebaseKey}.json`, update);
+  const todoList = await getTodos();
+
+  return todoList;
+};
+
+export {
+  getTodos, createTodo, deleteTodo, updateTodo,
+};
