@@ -1,7 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button } from 'reactstrap';
+import styled from 'styled-components';
+import { Button } from 'reactstrap';
 import { deleteTodo, updateTodo } from '../api/data/todoData';
+
+const TodoEntry = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px;
+`;
+
+const TodoLabel = styled.div`
+  display: flex;
+  padding: 0px 5px;
+  width: 100%;
+  text-align: left;
+  align-items: center;
+`;
+
+const ButtonTray = styled.div`
+  display: flex;
+  column-gap: 5px;
+`;
 
 export default function Todo({ todo, setTodos, setEditItem }) {
   const handleClick = (method) => {
@@ -13,23 +37,23 @@ export default function Todo({ todo, setTodos, setEditItem }) {
   };
 
   return (
-    <div>
-      <Alert color="light">
-        <Button
-          color={todo.complete ? 'secondary' : 'success'}
-          onClick={() => handleClick('toggleComplete')}
-        >
-          {todo.complete ? 'DONE' : 'COMPLETE'}
-        </Button>{' '}
-        {todo.name}{' '}
-        <Button color="warning" onClick={() => setEditItem(todo)}>
+    <TodoEntry>
+      <Button
+        color={todo.complete ? 'secondary' : 'success'}
+        onClick={() => handleClick('toggleComplete')}
+      >
+        {todo.complete ? 'DONE' : 'COMPLETE'}
+      </Button>
+      <TodoLabel>{todo.name}</TodoLabel>
+      <ButtonTray>
+        <Button color="primary" onClick={() => setEditItem(todo)}>
           EDIT
-        </Button>{' '}
+        </Button>
         <Button color="danger" onClick={() => handleClick('delete')}>
           DELETE
         </Button>
-      </Alert>
-    </div>
+      </ButtonTray>
+    </TodoEntry>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { createTodo, updateTodo } from '../api/data/todoData';
 
 const initialState = {
@@ -8,6 +9,21 @@ const initialState = {
   uid: '',
   firebaseKey: '',
 };
+
+const FormStyle = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  margin: 10px;
+`;
+
+const InputStyle = styled.input`
+  width: 100%;
+
+  padding: 6px 10px;
+  border-radius: 4px;
+`;
 
 export default function TodoForm({ obj, setTodos, setEditItem }) {
   const [formInput, setFormInput] = useState(initialState);
@@ -52,19 +68,25 @@ export default function TodoForm({ obj, setTodos, setEditItem }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="name">
-        <input
+    <>
+      <FormStyle onSubmit={handleSubmit}>
+        <InputStyle
           name="name"
           id="name"
+          placeholder="Add a YOU-Do"
           value={formInput.name}
           onChange={handleChange}
           required
         />
-        Name
-      </label>
-      <button type="submit">{obj.firebaseKey ? 'Update' : 'Submit'}</button>
-    </form>
+        <button
+          type="submit"
+          className={obj.firebaseKey ? 'btn btn-primary' : 'btn btn-success'}
+        >
+          {obj.firebaseKey ? 'Update' : 'Submit'}
+        </button>
+      </FormStyle>
+      <br />
+    </>
   );
 }
 
