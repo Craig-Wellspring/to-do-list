@@ -3,6 +3,8 @@
 
 body {
   background-color: $favColor !important;
+  display: flex;
+  justify-content: center;
 }
 
 #header {
@@ -12,5 +14,7 @@ body {
 }
 
 #root {
+  min-width: 600px;
+  width: 50%;
   padding: 10px;
 }
