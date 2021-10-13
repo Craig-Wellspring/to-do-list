@@ -6,6 +6,7 @@ import TodoForm from '../components/TodoForm';
 
 const CategoryHeader = styled.div`
   color: white;
+  margin: 0px 10px;
 `;
 
 function Initialize() {
