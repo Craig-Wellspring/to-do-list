@@ -11,7 +11,7 @@ const TodoEntry = styled.div`
 
   padding: 10px;
   border-radius: 4px;
-  margin: 10px;
+  margin: 10px 0px;
 `;
 
 const TodoLabel = styled.div`
@@ -20,6 +20,8 @@ const TodoLabel = styled.div`
   width: 100%;
   text-align: left;
   align-items: center;
+
+  color: black;
 `;
 
 const ButtonTray = styled.div`

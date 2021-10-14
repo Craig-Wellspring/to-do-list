@@ -34,12 +34,14 @@ const CategoryDropdown = styled.select`
 const initialState = {
   name: '',
   complete: false,
-  category: 'cat1',
+  category: 'Cat 1',
   uid: '',
   firebaseKey: '',
 };
 
-export default function TodoForm({ obj, setTodos, setEditItem }) {
+export default function TodoForm({
+  obj, setTodos, setEditItem, catState,
+}) {
   const [formInput, setFormInput] = useState(initialState);
   useEffect(() => {
     if (obj.firebaseKey) {
@@ -98,9 +100,11 @@ export default function TodoForm({ obj, setTodos, setEditItem }) {
             onChange={handleChange}
             value={formInput.category}
           >
-            <option value="cat1">Category 1</option>
-            <option value="cat2">Category 2</option>
-            <option value="cat3">Category 3</option>
+            {catState.map((cat) => (
+              <option value={cat} key={cat}>
+                {cat}
+              </option>
+            ))}
           </CategoryDropdown>
         </div>
         <button
@@ -127,4 +131,5 @@ TodoForm.propTypes = {
   }).isRequired,
   setTodos: PropTypes.func.isRequired,
   setEditItem: PropTypes.func.isRequired,
+  catState: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

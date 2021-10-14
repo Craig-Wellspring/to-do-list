@@ -9,48 +9,42 @@ const CategoryHeader = styled.div`
   margin: 0px 10px;
 `;
 
+const categories = ['Cat 1', 'Cat 2', 'Cat 3'];
+
 function Initialize() {
   const [todos, setTodos] = useState([]);
   const [editItem, setEditItem] = useState({});
+  const [catState, setCatState] = useState([]);
 
   useEffect(() => {
     getTodos().then(setTodos);
+    // todos.map((todo) => setCatState([...catState, todo.category]));
+    setCatState(categories);
   }, []);
 
   return (
     <>
       <div id="header">YOU-DO</div>
-      <TodoForm obj={editItem} setTodos={setTodos} setEditItem={setEditItem} />
+      <TodoForm
+        obj={editItem}
+        setTodos={setTodos}
+        setEditItem={setEditItem}
+        catState={catState}
+      />
 
-      <CategoryHeader>Cat 1</CategoryHeader>
-      {todos.map((todo) => (todo.category === 'cat1' ? (
-        <Todo
-          key={todo.firebaseKey}
-          todo={todo}
-          setTodos={setTodos}
-          setEditItem={setEditItem}
-        />
-      ) : null))}
-
-      <CategoryHeader>Cat 2</CategoryHeader>
-      {todos.map((todo) => (todo.category === 'cat2' ? (
-        <Todo
-          key={todo.firebaseKey}
-          todo={todo}
-          setTodos={setTodos}
-          setEditItem={setEditItem}
-        />
-      ) : null))}
-
-      <CategoryHeader>Cat 3</CategoryHeader>
-      {todos.map((todo) => (todo.category === 'cat3' ? (
-        <Todo
-          key={todo.firebaseKey}
-          todo={todo}
-          setTodos={setTodos}
-          setEditItem={setEditItem}
-        />
-      ) : null))}
+      {catState.map((category) => (
+        <CategoryHeader key={category}>
+          {category}
+          {todos.map((todo) => (todo.category === category ? (
+            <Todo
+              key={todo.firebaseKey}
+              todo={todo}
+              setTodos={setTodos}
+              setEditItem={setEditItem}
+            />
+          ) : null))}
+        </CategoryHeader>
+      ))}
     </>
   );
 }
