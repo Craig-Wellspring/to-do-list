@@ -10,6 +10,7 @@ const CategoryHeader = styled.div`
 `;
 
 const categories = ['Cat 1', 'Cat 2', 'Cat 3'];
+const populatedCats = [];
 
 function Initialize() {
   const [todos, setTodos] = useState([]);
@@ -18,7 +19,6 @@ function Initialize() {
 
   useEffect(() => {
     getTodos().then(setTodos);
-    // todos.map((todo) => setCatState([...catState, todo.category]));
     setCatState(categories);
   }, []);
 
@@ -31,7 +31,15 @@ function Initialize() {
         setEditItem={setEditItem}
         catState={catState}
       />
-
+      {catState.forEach((cat) => {
+        todos.forEach((todo) => {
+          if (todo.category === cat) {
+            if (!populatedCats.includes(cat)) {
+              populatedCats.push(cat);
+            }
+          }
+        });
+      })}
       {catState.map((category) => (
         <CategoryHeader key={category}>
           {category}
